@@ -5,6 +5,7 @@
 using namespace std;
 
 //Movimiento de un proyectil
+//El metodo usado para resolver la ecuacion de movimiento es Leap-Frog
 int main()
 {
 //Valores de las constantes
@@ -39,8 +40,11 @@ ypr = 0.0;
 vxpr = vx0;
 vypr = vy0;
 
+
 //Almacenar los datos en un archivo llamado p45.txt donde estan todos los puntos a un angulo de 45 (no se realizo con ./a.out >> como en clase para indicar el paso en el .cpp
-ofstream output("p45.txt");
+ofstream output("movimientoa45.txt");
+//Inicializacion de la distancia que recorrera el proyectil
+float distancia_recorrida=0.0;
 
 //Ciclo para caminar 
 for (int i = 0; i < 1000; ++i)
@@ -71,9 +75,18 @@ for (int i = 0; i < 1000; ++i)
 	yfu = yfu;
 	vxpr = vxfu;
 	vypr = vyfu;
+	//
+	if (yfu<0 and distancia_recorrida==0.0)
+		{
+			distancia_recorrida = xfu;
+		}
+
+
+	
+
 }
 
-
-
+printf("La distancia recorrida es de %f\n", distancia_recorrida);
+ 
 return 0;
 }
