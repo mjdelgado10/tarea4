@@ -29,9 +29,9 @@ float vypr, vyc, vyfu;
 // derivadas de posiciones y velocidades
 float dx, dy;
 float dvx, dvy;
-float friccionMag;
+float Fr;
 
-// asignar los valores iniciales
+// asignar los valores iniciales al presente
 xpr = 0.0;
 ypr = 0.0;
 
@@ -41,6 +41,39 @@ vypr = vy0;
 
 //Almacenar los datos en un archivo llamado p45.txt donde estan todos los puntos a un angulo de 45 (no se realizo con ./a.out >> como en clase para indicar el paso en el .cpp
 ofstream output("p45.txt");
+
+//Ciclo para caminar 
+for (int i = 0; i < 1000; ++i)
+{	
+	// Valor de Fr y derivadas de la velocidad en x y en y
+	Fr = cm*pow(vxpr*vxpr + vypr*vypr, 0.5);
+	dvx = -Fr*vxpr;
+	dvy = gr -Fr*vypr;
+		
+	// Velocidades en el centro y en el futuro 
+	vxc = vxpr + (1.0/2.0)*paso_tiempo*dvx;
+	vxfu = vxpr + 1.0*paso_tiempo*dvx;
+	vyc = vypr + (1.0/2.0)*paso_tiempo*dvy;
+	vyfu = vypr + 1.0*paso_tiempo*dvy;
+
+	// Derivada de la posicion actual
+	dx = vxc;
+	dy = vyc;
+
+	// Avance, posiciones en el futuro Calcular las nuevas posiciones con la velocidad de medio paso adelante
+	xfu = xpr + 1.0*paso_tiempo*dx;
+	yfu = ypr + 1.0*paso_tiempo*dy;
+
+	output << xfu << "\t" << yfu << "\t" << vxfu << "\t" << vyfu << "\t" << "\n";
+
+	// cambiar de paso, presente se convierte en futuro en x y y, las velocidades tambien pasan de presente a futuro
+	xpr = xfu;
+	yfu = yfu;
+	vxpr = vxfu;
+	vypr = vyfu;
+}
+
+
 
 return 0;
 }
